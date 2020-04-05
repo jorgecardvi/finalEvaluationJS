@@ -3,25 +3,18 @@ var Calculadora = {
   init: function(){
     //llamados a las funciones
     this.asignarEventosTeclas()
+    var numeroString = ""
   },
   //funciones para el cambio de tamano en las teclas cuando se las pulsa y se las suelta
   asignarEventosTeclas: function(){
     var teclas = document.getElementsByClassName('tecla');
     for (var i = 0; i < teclas.length; i++) {
       teclas[i].onmousedown = this.disminuirTecla;
-      teclas[i].onmousedown = this.mostrarNumero;
-      //teclas[i].onmousedown = this.mouseDown;
+      teclas[i].onclick = this.mostrarNumero;
       teclas[i].onmouseup = this.aumentarTecla;
     }
   },
-  /*
-  mouseDown: function(){
-    this.disminuirTecla(event);
-    this.mostrarNumero(event);
-  },
-  */
   disminuirTecla: function(event){
-    console.log('funcion disminuir');
     var teclaId = event.currentTarget.id;
     document.getElementById(teclaId).style.transform = "scale(0.95)";
   },
@@ -34,9 +27,12 @@ var Calculadora = {
     console.log('funcion mostrar');
     var teclaId = event.currentTarget.id;
     var display = document.getElementById('display')
-    display.innerHTML = teclaId
-    console.log(typeof(teclaId));
-
+    if (teclaId == "0" || teclaId == "1" || teclaId == "2" || teclaId == "3" || teclaId == "4" || teclaId == "5" || teclaId == "6" || teclaId == "7" || teclaId == "8" || teclaId == "9") {
+      this.numeroString = this.numeroString + teclaId
+      display.innerHTML = teclaId
+      console.log(typeof(teclaId))
+      console.log(this.numeroString);
+    }
   }
 }
 Calculadora.init()
