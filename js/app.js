@@ -3,7 +3,6 @@ var Calculadora = {
   init: function(){
     //llamados a las funciones
     this.asignarEventosTeclas()
-    var numeroString = ""
   },
   //funciones para el cambio de tamano en las teclas cuando se las pulsa y se las suelta
   asignarEventosTeclas: function(){
@@ -27,6 +26,7 @@ var Calculadora = {
     console.log('funcion mostrar');
     var teclaId = event.currentTarget.id;
     var display = document.getElementById('display')
+    var numeroString = ""
     if (teclaId == "0" || teclaId == "1" || teclaId == "2" || teclaId == "3" || teclaId == "4" || teclaId == "5" || teclaId == "6" || teclaId == "7" || teclaId == "8" || teclaId == "9") {
       this.numeroString = this.numeroString + teclaId
       display.innerHTML = teclaId
