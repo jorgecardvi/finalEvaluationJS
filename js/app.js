@@ -4,6 +4,7 @@ var Calculadora = {
     //llamados a las funciones
     this.asignarEventosTeclas()
     this.nuevoNumero=""
+    this.operacion = ""
   },
   //funciones para el cambio de tamano en las teclas cuando se las pulsa y se las suelta
   asignarEventosTeclas: function(){
@@ -33,16 +34,15 @@ var Calculadora = {
       this.resultado = '0'
       Calculadora.mostrarPantalla(this.resultado)
       Calculadora.init()
-    }else if (teclaId == "dividido") {
-      //funcion para dividir
-    }else if (teclaId == 'por') {
-      //funcion para multiplicar
-    }else if (teclaId == 'menos') {
-      //funcion restar
-    }else if (teclaId == 'mas') {
-      //funcion sumar
-    }else if (teclaId == 'igual') {
-      //resultado
+    }else if (teclaId == "dividido" || teclaId == 'por' || teclaId == 'menos' || teclaId == 'mas') {
+      //llamar a la funcion de operaciones
+      var pantalla = " "
+      this.operacion = teclaId
+      Calculadora.operaciones(teclaId)
+      Calculadora.mostrarPantalla(pantalla)
+      console.log('numero 1 ' + this.nuevoNumero);
+      this.nuevoNumero=""
+      console.log("numero 2 " + this.nuevoNumero);
     }else if (teclaId == 'punto') {
       //numero decimal
       this.punto="."
@@ -51,6 +51,8 @@ var Calculadora = {
       //numero negativo
       this.cambioSigno = "-"
       Calculadora.construirNumero(this.cambioSigno)
+    }else if (teclaId == 'igual') {
+      console.log(this.operacion);
     }
   },
   construirNumero: function(numero){
@@ -60,7 +62,6 @@ var Calculadora = {
     }
     if (numero === "-" && this.nuevoNumero.includes('-')) {
       this.nuevoNumero = this.nuevoNumero.slice(1)
-      console.log(this.nuevoNumero);
       Calculadora.mostrarPantalla(this.nuevoNumero)
       return
     }
@@ -74,6 +75,19 @@ var Calculadora = {
       Calculadora.mostrarPantalla(this.resultado)
       return
     }
+    if (this.nuevoNumero.includes('.') == false && this.nuevoNumero.includes('-') == false && this.nuevoNumero.length >= 8) {
+      console.log('mas de 8 numeros');
+      this.nuevoNumero = this.nuevoNumero
+      Calculadora.mostrarPantalla(this.nuevoNumero)
+      return
+    }
+    if ((this.nuevoNumero.includes('.') || this.nuevoNumero.includes('-')) && this.nuevoNumero.length >= 9) {
+      console.log('mas de 8 numeros y un punto o un menos');
+      this.nuevoNumero = this.nuevoNumero
+      Calculadora.mostrarPantalla(this.nuevoNumero)
+      return
+    }
+
     this.nuevoNumero = this.nuevoNumero + numero
     Calculadora.mostrarPantalla(this.nuevoNumero)
   },
@@ -84,25 +98,39 @@ var Calculadora = {
       display.innerHTML = '0'
       return
     }
-    if (resultado.includes('.') && resultado.length >= 9) {
-      resultado = Number(resultado).toPrecision(8)
-      display.innerHTML = resultado
-      return
-    }else
-    if (resultado.includes('-') && resultado.length >= 9) {
-      console.log('signo y longitud');
-      resultado = Number(resultado).toPrecision(8)
-      display.innerHTML = resultado
-      return
-    }else
-    if (resultado.includes('.') && resultado.includes('-') && resultado.length >= 10) {
-      resultado = Number(resultado).toPrecision(8)
-      display.innerHTML = resultado
-      return
-    }
     //resultado = Number(resultado).toPrecision(8)
     display.innerHTML = resultado
+  },
+  operaciones: function(operacion){
+    console.log('tecla presionada:' + operacion);
+    var existePrimerNumero = false
+    var primerNumero = 0
+
+    switch (operacion) {
+      case "mas":
+        //primero transformar a numero porque los numeros llegan como cadena de caracteres
+        //resultado = primerNumero + segundoNumero
+        console.log('operacion de suma');
+        break;
+      case "menos":
+        //primero transformar a numero porque los numeros llegan como cadena de caracteres
+        //resultado = primerNumero + segundoNumero
+        console.log('operacion de resta');
+        break;
+      case "por":
+        //primero transformar a numero porque los numeros llegan como cadena de caracteres
+        //resultado = primerNumero + segundoNumero
+        console.log('operacion de multiplicacion');
+        break;
+      case "dividido":
+        //primero transformar a numero porque los numeros llegan como cadena de caracteres
+        //resultado = primerNumero + segundoNumero
+        console.log('operacion de division');
+        break;
+      default:
+
     }
+  }
 
 
 
