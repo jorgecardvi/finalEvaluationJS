@@ -5,6 +5,8 @@ var Calculadora = {
     this.asignarEventosTeclas()
     this.nuevoNumero=""
     this.operacion = ""
+    this.primerNumero = ""
+    this.existePrimerNumero = false
   },
   //funciones para el cambio de tamano en las teclas cuando se las pulsa y se las suelta
   asignarEventosTeclas: function(){
@@ -24,35 +26,60 @@ var Calculadora = {
     document.getElementById(teclaId).style.transform = "scale(1)";
   },
   leerTecla: function(event){
+    Calculadora.construirNumero("")
     var teclaId = event.currentTarget.id;
+    var operacion = ''
+    var primerNumero = ''
     if (teclaId == "0" || teclaId == "1" || teclaId == "2" || teclaId == "3" || teclaId == "4" || teclaId == "5" || teclaId == "6" || teclaId == "7" || teclaId == "8" || teclaId == "9") {
     //llamar a la funcion de Numero
     this.numero = teclaId
     Calculadora.construirNumero(this.numero)
-    }else if (teclaId == "on") {
+    }
+    if (teclaId == "on") {
       //borra el numero
       this.resultado = '0'
       Calculadora.mostrarPantalla(this.resultado)
       Calculadora.init()
-    }else if (teclaId == "dividido" || teclaId == 'por' || teclaId == 'menos' || teclaId == 'mas') {
+    }
+
+    if (teclaId == "dividido" || teclaId == 'por' || teclaId == 'menos' || teclaId == 'mas') {
       //llamar a la funcion de operaciones
       var pantalla = " "
-      this.operacion = teclaId
-      Calculadora.operaciones(teclaId)
-      Calculadora.mostrarPantalla(pantalla)
-      console.log('numero 1 ' + this.nuevoNumero);
-      this.nuevoNumero=""
-      console.log("numero 2 " + this.nuevoNumero);
-    }else if (teclaId == 'punto') {
+      Calculadora.operacion = teclaId
+      Calculadora.primerNumero = Calculadora.nuevoNumero
+      Calculadora.existePrimerNumero = false
+
+      if (Calculadora.nuevoNumero.length !== 0) {
+        Calculadora.existePrimerNumero = true
+        //operacion = teclaId
+        //primerNumero = Calculadora.nuevoNumero
+
+        Calculadora.mostrarPantalla(pantalla)
+        Calculadora.nuevoNumero = ""
+        return
+      }else {
+        console.log('no hay primer numero');
+        return
+      }
+      return
+    }
+    if (teclaId == 'punto') {
       //numero decimal
       this.punto="."
       Calculadora.construirNumero(this.punto)
-    }else if (teclaId == 'sign') {
+    }
+    if (teclaId == 'sign') {
       //numero negativo
       this.cambioSigno = "-"
       Calculadora.construirNumero(this.cambioSigno)
-    }else if (teclaId == 'igual') {
-      console.log(this.operacion);
+    }
+
+    if (teclaId == 'igual') {
+      if (Calculadora.existePrimerNumero) {
+        this.segundoNumero = Calculadora.nuevoNumero
+        Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, this.segundoNumero)
+      }
+
     }
   },
   construirNumero: function(numero){
@@ -87,13 +114,13 @@ var Calculadora = {
       Calculadora.mostrarPantalla(this.nuevoNumero)
       return
     }
-
     this.nuevoNumero = this.nuevoNumero + numero
     Calculadora.mostrarPantalla(this.nuevoNumero)
   },
   mostrarPantalla: function(resultado){
     //esta funcion va a mostrar las cosas en la pantalla
     var display = document.getElementById('display')
+    //puede ser que tenga que quitar esta parte por que cuando presione la operacion, la pantalla tiene que quedar sin nada
     if(resultado.length === 0){
       display.innerHTML = '0'
       return
@@ -101,35 +128,41 @@ var Calculadora = {
     //resultado = Number(resultado).toPrecision(8)
     display.innerHTML = resultado
   },
-  operaciones: function(operacion){
-    console.log('tecla presionada:' + operacion);
-    var existePrimerNumero = false
-    var primerNumero = 0
-
+  operaciones: function(operacion, primerNumero, segundoNumero){
+    console.log('tecla presionada: ' + operacion);
+    console.log('primer Numero: ' + primerNumero);
+    console.log('segundo Numero: ' + segundoNumero);
+    primerNumero = parseFloat(primerNumero)
+    segundoNumero = parseFloat(segundoNumero)
     switch (operacion) {
       case "mas":
-        //primero transformar a numero porque los numeros llegan como cadena de caracteres
-        //resultado = primerNumero + segundoNumero
-        console.log('operacion de suma');
+        resultado = primerNumero + segundoNumero
+        console.log('operacion de suma:' + resultado);
         break;
       case "menos":
-        //primero transformar a numero porque los numeros llegan como cadena de caracteres
-        //resultado = primerNumero + segundoNumero
-        console.log('operacion de resta');
+        resultado = primerNumero - segundoNumero
+        console.log('operacion de resta:' + resultado);
         break;
       case "por":
-        //primero transformar a numero porque los numeros llegan como cadena de caracteres
-        //resultado = primerNumero + segundoNumero
-        console.log('operacion de multiplicacion');
+        resultado = primerNumero * segundoNumero
+        console.log('operacion de multiplicacion:' + resultado);
         break;
       case "dividido":
-        //primero transformar a numero porque los numeros llegan como cadena de caracteres
-        //resultado = primerNumero + segundoNumero
-        console.log('operacion de division');
+        resultado = primerNumero / segundoNumero
+        console.log('operacion de division:' + resultado);
         break;
       default:
-
+        return
     }
+    resultado = resultado.toFixed(2)
+    if (resultado.length >= 8) {
+      resultado = parseFloat(resultado)
+      resultado = resultado.toPrecision(6)
+      Calculadora.mostrarPantalla(resultado)
+      return
+    }
+    Calculadora.mostrarPantalla(resultado)
+
   }
 
 
