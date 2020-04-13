@@ -34,28 +34,41 @@ var Calculadora = {
     //llamar a la funcion de Numero
     this.numero = teclaId
     Calculadora.construirNumero(this.numero)
+    return
     }
     if (teclaId == "on") {
       //borra el numero
       this.resultado = '0'
       Calculadora.mostrarPantalla(this.resultado)
       Calculadora.init()
+      return
     }
 
     if (teclaId == "dividido" || teclaId == 'por' || teclaId == 'menos' || teclaId == 'mas') {
       //llamar a la funcion de operaciones
       var pantalla = " "
       Calculadora.operacion = teclaId
-      Calculadora.primerNumero = Calculadora.nuevoNumero
       Calculadora.existePrimerNumero = false
+      if (Calculadora.primerNumero.length !== 0) {
+        Calculadora.existePrimerNumero = true
+        console.log('valor del primer numero despues de un resultado' +Calculadora.primerNumero);
+        Calculadora.mostrarPantalla(pantalla)
+        Calculadora.nuevoNumero = ""
+        return
+      }
 
       if (Calculadora.nuevoNumero.length !== 0) {
+        Calculadora.primerNumero = Calculadora.nuevoNumero
+        console.log('primer numero ' + Calculadora.primerNumero);
         Calculadora.existePrimerNumero = true
         //operacion = teclaId
         //primerNumero = Calculadora.nuevoNumero
 
         Calculadora.mostrarPantalla(pantalla)
+        console.log(Calculadora.nuevoNumero);
         Calculadora.nuevoNumero = ""
+        console.log('nuevo numero en cero ');
+        console.log(Calculadora.nuevoNumero);
         return
       }else {
         console.log('no hay primer numero');
@@ -75,15 +88,21 @@ var Calculadora = {
     }
 
     if (teclaId == 'igual') {
+      if (Calculadora.nuevoNumero.length === 0) {
+        Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, this.segundoNumero)
+        return
+      }
       if (Calculadora.existePrimerNumero) {
         this.segundoNumero = Calculadora.nuevoNumero
         Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, this.segundoNumero)
+        Calculadora.nuevoNumero = ""
       }
 
     }
   },
   construirNumero: function(numero){
     //condicion para chequear si hay punto
+    console.log('numero que se queda' + this.nuevoNumero);
     if (numero === "." && this.nuevoNumero.includes('.')) {
       return
     }
@@ -129,39 +148,38 @@ var Calculadora = {
     display.innerHTML = resultado
   },
   operaciones: function(operacion, primerNumero, segundoNumero){
-    console.log('tecla presionada: ' + operacion);
-    console.log('primer Numero: ' + primerNumero);
-    console.log('segundo Numero: ' + segundoNumero);
+    resultado = 0
     primerNumero = parseFloat(primerNumero)
     segundoNumero = parseFloat(segundoNumero)
     switch (operacion) {
       case "mas":
         resultado = primerNumero + segundoNumero
-        console.log('operacion de suma:' + resultado);
         break;
       case "menos":
         resultado = primerNumero - segundoNumero
-        console.log('operacion de resta:' + resultado);
         break;
       case "por":
         resultado = primerNumero * segundoNumero
-        console.log('operacion de multiplicacion:' + resultado);
         break;
       case "dividido":
         resultado = primerNumero / segundoNumero
-        console.log('operacion de division:' + resultado);
         break;
       default:
         return
     }
     resultado = resultado.toFixed(2)
+    Calculadora.primerNumero = resultado
+    console.log('primer numero como resultado ' + Calculadora.primerNumero);
     if (resultado.length >= 8) {
       resultado = parseFloat(resultado)
       resultado = resultado.toPrecision(6)
       Calculadora.mostrarPantalla(resultado)
       return
     }
+    //Calculadora.construirNumero(resultado)
+    //console.log('resultado a construir numero ' + resultado);
     Calculadora.mostrarPantalla(resultado)
+
 
   }
 
