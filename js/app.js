@@ -6,6 +6,7 @@ var Calculadora = {
     this.nuevoNumero=""
     this.operacion = ""
     this.primerNumero = ""
+    this.resultado = ""
     this.existePrimerNumero = false
   },
   //funciones para el cambio de tamano en las teclas cuando se las pulsa y se las suelta
@@ -34,6 +35,7 @@ var Calculadora = {
     //llamar a la funcion de Numero
     this.numero = teclaId
     Calculadora.construirNumero(this.numero)
+    Calculadora.resultado = ""
     return
     }
     if (teclaId == "on") {
@@ -49,7 +51,8 @@ var Calculadora = {
       var pantalla = " "
       Calculadora.operacion = teclaId
       Calculadora.existePrimerNumero = false
-      if (Calculadora.primerNumero.length !== 0) {
+      if (Calculadora.resultado.length !== 0) {
+        Calculadora.primerNumero = Calculadora.resultado
         Calculadora.existePrimerNumero = true
         console.log('valor del primer numero despues de un resultado' +Calculadora.primerNumero);
         Calculadora.mostrarPantalla(pantalla)
@@ -89,7 +92,7 @@ var Calculadora = {
 
     if (teclaId == 'igual') {
       if (Calculadora.nuevoNumero.length === 0) {
-        Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, this.segundoNumero)
+        Calculadora.operaciones(Calculadora.operacion, Calculadora.resultado, this.segundoNumero)
         return
       }
       if (Calculadora.existePrimerNumero) {
@@ -168,7 +171,8 @@ var Calculadora = {
         return
     }
     resultado = resultado.toFixed(2)
-    Calculadora.primerNumero = resultado
+    //Calculadora.primerNumero = resultado
+    Calculadora.resultado = resultado
     console.log('primer numero como resultado ' + Calculadora.primerNumero);
     if (resultado.length >= 8) {
       resultado = parseFloat(resultado)
