@@ -51,30 +51,51 @@ var Calculadora = {
       var pantalla = " "
       Calculadora.operacion = teclaId
       Calculadora.existePrimerNumero = false
-      if (Calculadora.resultado.length !== 0) {
-        Calculadora.primerNumero = Calculadora.resultado
-        Calculadora.existePrimerNumero = true
-        console.log('valor del primer numero despues de un resultado' +Calculadora.primerNumero);
-        Calculadora.mostrarPantalla(pantalla)
-        Calculadora.nuevoNumero = ""
-        return
-      }
 
       if (Calculadora.nuevoNumero.length !== 0) {
+        console.log('primera');
         Calculadora.primerNumero = Calculadora.nuevoNumero
         console.log('primer numero ' + Calculadora.primerNumero);
         Calculadora.existePrimerNumero = true
-        //operacion = teclaId
-        //primerNumero = Calculadora.nuevoNumero
-
+        Calculadora.nuevoNumero = ""
         Calculadora.mostrarPantalla(pantalla)
-        console.log(Calculadora.nuevoNumero);
+        if (Calculadora.existePrimerNumero) {
+          this.segundoNumero = Calculadora.nuevoNumero
+          console.log('segundo numero ' + this.segundoNumero);
+          Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, this.segundoNumero)
+          //Calculadora.nuevoNumero = ""
+        }
+        //console.log(Calculadora.nuevoNumero);
+        if (Calculadora.nuevoNumero.length === 0) {
+          Calculadora.operaciones(Calculadora.operacion, Calculadora.resultado, this.segundoNumero)
+          return
+        }
+
         Calculadora.nuevoNumero = ""
         console.log('nuevo numero en cero ');
         console.log(Calculadora.nuevoNumero);
         return
       }else {
         console.log('no hay primer numero');
+        return
+      }
+
+      if (Calculadora.resultado.length !== 0) {
+        console.log('segunda');
+        Calculadora.primerNumero = Calculadora.resultado
+        Calculadora.existePrimerNumero = true
+        console.log('valor del primer numero despues de un resultado' +Calculadora.primerNumero);
+        Calculadora.mostrarPantalla(pantalla)
+        if (Calculadora.nuevoNumero.length === 0) {
+          Calculadora.operaciones(Calculadora.operacion, Calculadora.resultado, this.segundoNumero)
+          return
+        }
+        if (Calculadora.existePrimerNumero) {
+          this.segundoNumero = Calculadora.nuevoNumero
+          Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, this.segundoNumero)
+          Calculadora.nuevoNumero = ""
+        }
+        Calculadora.nuevoNumero = ""
         return
       }
       return
@@ -91,6 +112,7 @@ var Calculadora = {
     }
 
     if (teclaId == 'igual') {
+      /*
       if (Calculadora.nuevoNumero.length === 0) {
         Calculadora.operaciones(Calculadora.operacion, Calculadora.resultado, this.segundoNumero)
         return
@@ -102,10 +124,21 @@ var Calculadora = {
       }
 
     }
+    */
+    if (Calculadora.resultado.length >= 8) {
+      Calculadora.resultado = parseFloat(Calculadora.resultado)
+      Calculadora.resultado = resultado.toPrecision(6)
+      Calculadora.mostrarPantalla(Calculadora.resultado)
+      return
+    }
+    //Calculadora.construirNumero(resultado)
+    //console.log('resultado a construir numero ' + resultado);
+    Calculadora.mostrarPantalla(resultado)
+    }
   },
   construirNumero: function(numero){
     //condicion para chequear si hay punto
-    console.log('numero que se queda' + this.nuevoNumero);
+    //console.log('numero que se queda' + this.nuevoNumero);
     if (numero === "." && this.nuevoNumero.includes('.')) {
       return
     }
@@ -174,21 +207,10 @@ var Calculadora = {
     //Calculadora.primerNumero = resultado
     Calculadora.resultado = resultado
     console.log('primer numero como resultado ' + Calculadora.primerNumero);
-    if (resultado.length >= 8) {
-      resultado = parseFloat(resultado)
-      resultado = resultado.toPrecision(6)
-      Calculadora.mostrarPantalla(resultado)
-      return
-    }
-    //Calculadora.construirNumero(resultado)
-    //console.log('resultado a construir numero ' + resultado);
-    Calculadora.mostrarPantalla(resultado)
+
 
 
   }
-
-
-
 }
 Calculadora.init()
 //https://www.google.com/search?client=firefox-b-d&q=build+a+calculator+in+js#kpvalbx=_b2KLXtvsOOLisAe6rIsI31
