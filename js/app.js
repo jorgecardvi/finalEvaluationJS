@@ -59,6 +59,9 @@ var Calculadora = {
         Calculadora.existePrimerNumero = true
         Calculadora.nuevoNumero = ""
         Calculadora.mostrarPantalla(pantalla)
+        Calculadora.construirNumero(Calculadora.nuevoNumero)
+        this.segundoNumero = Calculadora.nuevoNumero
+        console.log('segundo numero ' + this.segundoNumero);
         if (Calculadora.existePrimerNumero) {
           this.segundoNumero = Calculadora.nuevoNumero
           console.log('segundo numero ' + this.segundoNumero);
