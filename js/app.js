@@ -2,12 +2,12 @@
 var Calculadora = {
   init: function(){
     //llamados a las funciones
-    this.asignarEventosTeclas()
-    this.nuevoNumero=""
-    this.operacion = ""
-    this.primerNumero = ""
-    this.resultado = ""
-    this.existePrimerNumero = false
+    this.asignarEventosTeclas();
+    this.nuevoNumero="";
+    this.operacion = "";
+    this.primerNumero = "";
+    this.resultado = "";
+    this.existePrimerNumero = false;
   },
   //funciones para el cambio de tamano en las teclas cuando se las pulsa y se las suelta
   asignarEventosTeclas: function(){
@@ -27,16 +27,16 @@ var Calculadora = {
     document.getElementById(teclaId).style.transform = "scale(1)";
   },
   leerTecla: function(event){
-    Calculadora.construirNumero("")
+    Calculadora.construirNumero("");
     var teclaId = event.currentTarget.id;
-    var operacion = ''
-    var primerNumero = ''
+    var operacion = '';
+    var primerNumero = '';
     if (teclaId == "0" || teclaId == "1" || teclaId == "2" || teclaId == "3" || teclaId == "4" || teclaId == "5" || teclaId == "6" || teclaId == "7" || teclaId == "8" || teclaId == "9") {
     //llamar a la funcion de Numero
-    this.numero = teclaId
-    Calculadora.construirNumero(this.numero)
-    Calculadora.resultado = ""
-    return
+    this.numero = teclaId;
+    Calculadora.construirNumero(this.numero);
+    Calculadora.resultado = "";
+    return;
     }
     if (teclaId == "on") {
       //borra el numero
@@ -48,13 +48,13 @@ var Calculadora = {
 
     if (teclaId == "dividido" || teclaId == 'por' || teclaId == 'menos' || teclaId == 'mas') {
       //llamar a la funcion de operaciones
-      var pantalla = " "
-      Calculadora.operacion = teclaId
-      Calculadora.existePrimerNumero = false
+      var pantalla = " ";
+      Calculadora.operacion = teclaId;
+      Calculadora.existePrimerNumero = false;
 
       if (Calculadora.nuevoNumero.length !== 0) {
         console.log('primera');
-        Calculadora.primerNumero = Calculadora.nuevoNumero
+        Calculadora.primerNumero = Calculadora.nuevoNumero;
         console.log('primer numero ' + Calculadora.primerNumero);
         Calculadora.existePrimerNumero = true
         Calculadora.nuevoNumero = ""
@@ -192,16 +192,16 @@ var Calculadora = {
     segundoNumero = parseFloat(segundoNumero)
     switch (operacion) {
       case "mas":
-        resultado = primerNumero + segundoNumero
+        resultado = primerNumero + segundoNumero;
         break;
       case "menos":
-        resultado = primerNumero - segundoNumero
+        resultado = primerNumero - segundoNumero;
         break;
       case "por":
-        resultado = primerNumero * segundoNumero
+        resultado = primerNumero * segundoNumero;
         break;
       case "dividido":
-        resultado = primerNumero / segundoNumero
+        resultado = primerNumero / segundoNumero;
         break;
       default:
         return
