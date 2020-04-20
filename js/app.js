@@ -6,6 +6,7 @@ var Calculadora = {
     this.nuevoNumero="";
     this.operacion = "";
     this.primerNumero = "";
+    this.segundoNumero = "";
     this.resultado = "";
     this.existePrimerNumero = false;
   },
@@ -48,20 +49,24 @@ var Calculadora = {
 
     if (teclaId == "dividido" || teclaId == 'por' || teclaId == 'menos' || teclaId == 'mas') {
       //llamar a la funcion de operaciones
-      var pantalla = " ";
-      Calculadora.operacion = teclaId;
-      Calculadora.existePrimerNumero = false;
+      
+      //revision del 20/04
+      
+      
+      //Calculadora.existePrimerNumero = false;
 
       if (Calculadora.nuevoNumero.length !== 0) {
+        var pantalla = " ";
+        Calculadora.operacion = teclaId;
         console.log('primera');
         Calculadora.primerNumero = Calculadora.nuevoNumero;
         console.log('primer numero ' + Calculadora.primerNumero);
         Calculadora.existePrimerNumero = true
         Calculadora.nuevoNumero = ""
         Calculadora.mostrarPantalla(pantalla)
-        Calculadora.construirNumero(Calculadora.nuevoNumero)
-        this.segundoNumero = Calculadora.nuevoNumero
-        console.log('segundo numero ' + this.segundoNumero);
+        //Calculadora.construirNumero(Calculadora.nuevoNumero)
+        //this.segundoNumero = Calculadora.nuevoNumero
+        console.log('segundo numero ' + Calculadora.nuevoNumero);
         if (Calculadora.existePrimerNumero) {
           this.segundoNumero = Calculadora.nuevoNumero
           console.log('segundo numero ' + this.segundoNumero);
