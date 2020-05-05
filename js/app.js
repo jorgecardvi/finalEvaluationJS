@@ -10,6 +10,7 @@ var Calculadora = {
     this.resultado = "";
     this.existePrimerNumero = false;
     this.existeSegundoNumero = false;
+    this.existeIgual = false;
   },
   //funciones para el cambio de tamano en las teclas cuando se las pulsa y se las suelta
   asignarEventosTeclas: function(){
@@ -34,11 +35,22 @@ var Calculadora = {
     var operacion = '';
     var primerNumero = '';
     if (teclaId == "0" || teclaId == "1" || teclaId == "2" || teclaId == "3" || teclaId == "4" || teclaId == "5" || teclaId == "6" || teclaId == "7" || teclaId == "8" || teclaId == "9") {
-    //llamar a la funcion de Numero
-    this.numero = teclaId;
-    Calculadora.construirNumero(this.numero);
-    //Calculadora.resultado = "";
-    return;
+      if(Calculadora.existeIgual === true){
+        //funciona solo con el igual, la idea es que se debe ejecutar esta parte solo si la tecla igual se presiono
+        console.log('numero despues de un igual y tenemos un resultado');
+        //Calculadora.primerNumero = "";
+        Calculadora.existePrimerNumero = false;
+        Calculadora.segundoNumero = "";
+        Calculadora.existeSegundoNumero = false;
+        Calculadora.resultado="";
+        Calculadora.existeIgual = false;
+      }
+      //llamar a la funcion de Numero
+      this.numero = teclaId;
+      Calculadora.construirNumero(this.numero);
+      Calculadora.existeIgual = false;
+      //Calculadora.resultado = "";
+      return;
     }
     if (teclaId == "on") {
       //borra el numero
@@ -56,7 +68,18 @@ var Calculadora = {
         }
         var pantalla = " ";
         Calculadora.mostrarPantalla(pantalla);
-        
+        if (Calculadora.existeIgual) {
+          console.log('existe igual antes de operacion');
+          console.log("caso operacion despues de igual, hay un primer numero (ingresado o resultado anterior) pero no hay un segundo numero");
+          Calculadora.segundoNumero = Calculadora.nuevoNumero;
+          console.log('segundo numero ' + Calculadora.segundoNumero);
+          Calculadora.existeSegundoNumero = true;
+          Calculadora.nuevoNumero = "";
+          console.log("hay los dos numeros listos para hacer la operacion")
+          Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, Calculadora.segundoNumero)
+          Calculadora.operacion = teclaId;
+          return
+        }
         if (Calculadora.nuevoNumero.length !== 0 && Calculadora.existePrimerNumero == false){
             console.log("segundo caso, se ingreso un numero pero no hay un resultado anterior");
             Calculadora.operacion = teclaId;
@@ -67,25 +90,21 @@ var Calculadora = {
             Calculadora.nuevoNumero = "";
             return
         }
-        
+
         if (Calculadora.existePrimerNumero && Calculadora.existeSegundoNumero == false){
            console.log("tercer caso, hay un primer numero (ingresado o resultado anterior) pero no hay un segundo numero");
-           Calculadora.segundoNumero = Calculadora.nuevoNumero; 
+           Calculadora.segundoNumero = Calculadora.nuevoNumero;
            console.log('segundo numero ' + Calculadora.segundoNumero);
            Calculadora.existeSegundoNumero = true;
            Calculadora.nuevoNumero = "";
            console.log("hay los dos numeros listos para hacer la operacion")
            Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, Calculadora.segundoNumero)
-           Calculadora.operacion = teclaId; 
-           return   
+           Calculadora.operacion = teclaId;
+           console.log('voy a mostrar' + resultado);
+           Calculadora.mostrarPantalla(resultado);
+           return
         }
-        /*
-        if (Calculadora.existePrimerNumero && Calculadora.existeSegundoNumero){
-            console.log("hay los dos numeros listos para hacer la operacion")
-            Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, Calculadora.segundoNumero)
-        }
-           
-         */
+
     }
     if (teclaId == 'punto') {
       //numero decimal
@@ -99,20 +118,41 @@ var Calculadora = {
     }
 
     if (teclaId == 'igual') {
+      //var segundoNumeroIgual = "";
+      //var operacionIgual = "";
+      if (Calculadora.existeIgual) {
+        console.log('debo estar aqui');
+        console.log(Calculadora.primerNumero);
+        console.log(segundoNumeroIgual);
+        console.log(operacionIgual);
+        Calculadora.operaciones(operacionIgual, Calculadora.primerNumero, segundoNumeroIgual)
+        Calculadora.mostrarPantalla(resultado);
+        return;
+      }
       if (Calculadora.resultado === ""){
-          //Calculadora.segundoNumero = Calculadora.nuevoNumero; 
+          //Calculadora.segundoNumero = Calculadora.nuevoNumero;
+          Calculadora.existeIgual = true;
+          segundoNumeroIgual = Calculadora.nuevoNumero
+          operacionIgual = Calculadora.operacion;
+          console.log("tecla igual y no hay resultado anterior");
           console.log('segundo numero igual: ' + Calculadora.nuevoNumero);
           Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, Calculadora.nuevoNumero);
           Calculadora.mostrarPantalla(resultado);
           console.log("estado del segundo numero " + Calculadora.existeSegundoNumero);
           Calculadora.nuevoNumero = "";
+
           Calculadora.operacion = "";
           //this.primerNumero = "";
+
           Calculadora.segundoNumero = "";
-          Calculadora.existePrimerNumero = false;
+          //Calculadora.existePrimerNumero = false;
           Calculadora.existeSegundoNumero = false;
           return;
       }
+            Calculadora.existeIgual = true;
+            operacionIgual = Calculadora.operacion;
+            segundoNumeroIgual = Calculadora.nuevoNumero
+            console.log('tecla igual deberia haber un resultado');
             Calculadora.segundoNumero = Calculadora.nuevoNumero;
             console.log('segundo numero ' + Calculadora.segundoNumero);
             Calculadora.existeSegundoNumero = true;
@@ -120,12 +160,13 @@ var Calculadora = {
             console.log("hay los dos numeros listos para hacer la operacion")
             Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, Calculadora.segundoNumero)
             Calculadora.mostrarPantalla(resultado);
-      
+
+
     }
   },
   construirNumero: function(numero){
     //condicion para chequear si hay punto
-    
+
     if (numero === "." && this.nuevoNumero.includes('.')) {
       return
     }
@@ -192,6 +233,7 @@ var Calculadora = {
     }
     resultado = resultado.toFixed(2)
     Calculadora.primerNumero = resultado
+    Calculadora.existePrimerNumero = true
     Calculadora.resultado = resultado
     console.log('primer numero como resultado ' + Calculadora.primerNumero);
     Calculadora.existeSegundoNumero = false;
@@ -200,6 +242,7 @@ var Calculadora = {
 
   }
 }
+console.log('primera funcion');
 Calculadora.init()
 //https://www.google.com/search?client=firefox-b-d&q=build+a+calculator+in+js#kpvalbx=_b2KLXtvsOOLisAe6rIsI31
 //https://www.freecodecamp.org/news/how-to-build-an-html-calculator-app-from-scratch-using-javascript-4454b8714b98/
