@@ -69,19 +69,20 @@ var Calculadora = {
 
         var pantalla = " ";
         Calculadora.mostrarPantalla(pantalla);
+        /*
         if (Calculadora.existeIgual) {
           console.log('existe igual antes de operacion');
           console.log("caso operacion despues de igual, hay un primer numero (ingresado o resultado anterior) pero no hay un segundo numero");
+          console.log('igual true');
           Calculadora.segundoNumero = Calculadora.nuevoNumero;
-          console.log('segundo numero ' + Calculadora.segundoNumero);
           Calculadora.existeSegundoNumero = true;
           Calculadora.nuevoNumero = "";
-          console.log("hay los dos numeros listos para hacer la operacion")
           Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, Calculadora.segundoNumero)
           Calculadora.operacion = teclaId;
           Calculadora.existeIgual = false;
           return
         }
+        */
         if (Calculadora.nuevoNumero.length !== 0 && Calculadora.existePrimerNumero == false){
             console.log("segundo caso, se ingreso un numero pero no hay un resultado anterior");
             Calculadora.operacion = teclaId;
