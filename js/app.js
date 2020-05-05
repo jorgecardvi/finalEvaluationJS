@@ -66,6 +66,7 @@ var Calculadora = {
             console.log("No hay numero");
             return;
         }
+
         var pantalla = " ";
         Calculadora.mostrarPantalla(pantalla);
         if (Calculadora.existeIgual) {
@@ -78,6 +79,7 @@ var Calculadora = {
           console.log("hay los dos numeros listos para hacer la operacion")
           Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, Calculadora.segundoNumero)
           Calculadora.operacion = teclaId;
+          Calculadora.existeIgual = false;
           return
         }
         if (Calculadora.nuevoNumero.length !== 0 && Calculadora.existePrimerNumero == false){
