@@ -104,7 +104,7 @@ var Calculadora = {
            Calculadora.operaciones(Calculadora.operacion, Calculadora.primerNumero, Calculadora.segundoNumero)
            Calculadora.operacion = teclaId;
            console.log('voy a mostrar' + resultado);
-           Calculadora.mostrarPantalla(resultado);
+           //Calculadora.mostrarPantalla(resultado);
            return
         }
 
